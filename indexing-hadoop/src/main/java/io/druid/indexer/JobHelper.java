@@ -390,10 +390,16 @@ public class JobHelper
     switch (outputFS.getScheme()) {
       case "hdfs":
       case "viewfs":
-      case "gs":
         loadSpec = ImmutableMap.<String, Object>of(
             "type", "hdfs",
             "path", indexOutURI.toString()
+        );
+        break;
+      case "gs":
+        loadSpec = ImmutableMap.<String, Object>of(
+            "type", "google",
+            "bucket", indexOutURI.getHost(),
+            "path", indexOutURI.getPath().substring(1) // remove the leading "/"
         );
         break;
       case "s3":
